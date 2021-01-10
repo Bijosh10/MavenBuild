@@ -12,7 +12,7 @@ node('master') {
 	}
 
 	stage ('Sonar Analysis'){
-		sh 'mvn sonar:sonar -Dsonar.host.url=http://35.173.232.10:9000/'
+		sh 'mvn sonar:sonar -Dsonar.host.url=http://35.173.232.10:9000 -Dsonar.login=d41367789d4095655cbcfb551aa34037663bc99e'
 	}
 
 	stage ('Archive Artifacts'){
@@ -20,10 +20,10 @@ node('master') {
 	}
 	
 	stage ('Deployment'){
-		//sh 'cp target/*.war /opt/tomcat8/webapps'
+		sh 'cp target/*.war /opt/tomcat8/webapps'
 	}
 	stage ('Notification'){
-		//slackSend color: 'good', message: 'Deployment Sucessful'
+		slackSend color: 'good', message: 'Deployment Sucessful'
 		emailext (
 		      subject: "Job Completed",
 		      body: "Jenkins Pipeline Job for Maven Build got completed !!!",
